@@ -49,7 +49,7 @@
 
 Заходите в админку, по умолчанию она localhost:81. Логин и пароль в env файле.
 
-И создайте 3 proxy и выдайте им SSL сертификат: 
+Создайте 3 proxy и выдайте им SSL сертификат: 
 
 
 1. Для wiki.your-domain.com >> outline:3000 
@@ -71,17 +71,15 @@ P.S. Название хоста=название контейнера
 После установки keycloak заходим на kc.your-domain.com:
 
 
-1. Создаем realm. Это название будет использоваться в outline.env, переменные:
+1. Создаем realm. Это название будет использоваться в outline.env, в переменных:
    * OIDC_AUTH_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/auth>
-
-
    * OIDC_TOKEN_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/token>
    * OIDC_USERINFO_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/userinfo>
 
-     Замените YOUR-NAME-REALMS на название realm, которые вы создали выше и не забудьте указать ваш домен.
+   Замените YOUR-NAME-REALMS на название realm, которые вы создали выше и не забудьте указать ваш домен.
 
       
-2. Создаем Clients, я назвал его outline_app, это название указываем в OIDC_CLIENT_ID >> outline.env
+2. Создаем Clients, я назвал его outline_app, это название указываем в переменной OIDC_CLIENT_ID >> outline.env
 
    settings выбираем в полях:  
 
