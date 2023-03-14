@@ -1,0 +1,47 @@
+version: "3"
+services:
+
+  npm-app:
+    container_name: npm-app
+    image: ${NPN_VERSION}
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+      - '${NPM_ADMIN_PORT}:81'
+    environment:
+      DB_MYSQL_HOST: "npm-mariadb"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "${MYSQL_USER}"
+      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_MYSQL_NAME: "${MYSQL_DB_NAME}"
+      # true, если IPv6 не включен на вашем хосте
+      DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - npm-mariadb
+    networks:
+      - nginx-proxy-manager
+      - reverseproxy
+
+  npm-mariadb:
+    container_name: npm-mariadb
+    image: ${MARIANDB_VERSION}
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: '${MYSQL_DB_NAME}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - nginx-proxy-manager
+
+networks:
+  nginx-proxy-manager:
+  reverseproxy:
+    external: true
+

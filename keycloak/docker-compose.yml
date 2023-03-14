@@ -1,0 +1,53 @@
+version: "2"
+
+services:
+
+  keycloak-postgres:
+    container_name: keycloak-postgres
+    image: ${KEYCLOAK_POSTGRES_VERSION}
+    restart: always
+    #ports:
+    #  - "${KEYCLOAK_POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${KEYCLOAK_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${KEYCLOAK_POSTGRES_DB}
+      PGPORT: ${KEYCLOAK_POSTGRES_PORT}
+    volumes:
+      - ./keycloak/postgres-data/db:/var/lib/postgresql/data:Z
+    networks:
+      - internal
+
+  keycloak-app:
+    container_name: keycloak-app
+    image: ${KEYCLOAK_VERSION}
+    restart: always
+    ports:
+      - "${KEYCLOAK_PORT}:8080"
+    volumes:
+      - keycloak-data:/opt/jboss/keycloak/standalone/data/
+    environment:
+      - DB_VENDOR=${DB_VENDOR}
+      - DB_ADDR=keycloak-postgres
+      - DB_PORT=${KEYCLOAK_POSTGRES_PORT}
+      - DB_DATABASE=${KEYCLOAK_POSTGRES_DB}
+      - DB_USER=${KEYCLOAK_POSTGRES_USER}
+      - DB_SCHEMA=public
+      - DB_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
+      - KEYCLOAK_FRONTEND_URL=${KEYCLOAK_FRONTEND_URL}
+      - KEYCLOAK_USER=${KEYCLOAK_USER}
+      - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
+    depends_on:
+      - keycloak-postgres
+
+    networks:
+      - internal
+      - reverseproxy
+
+volumes:
+  keycloak-data:
+
+networks:
+  internal:
+  reverseproxy:
+    external: true
