@@ -1,96 +1,57 @@
- ![](/api/attachments.redirect?id=cb098f76-2cf7-40b7-b29a-edbcb22e24f5 " =333x290")
-
 # Подготовка
 
-Необязательно ставить Nginx Proxy Manager и keycloak. Смотрите исходя из ваших подробностей =)
+### Поддомены
 
-## Веб-сервер
+Нужно создать 4 поддомена на своем сервисе домменов (например: [Reg](https://www.reg.ru/domain/shop/), [Nic](https://www.nic.ru/catalog/domains/)):
 
-Для Outline за ранее нужно подготовить поддомены c сертификатами SSL/TLS, я использовал:
+* wiki.your-domain.com -> для захода на Outline
+* minio.your-domain.com -> для захода на Minio
+* admin-minio.your-domain.com -> для захода на Minio, в админку
+* kc.your-domain.com -> для захода на Keycloak  
 
-* wiki.your-domain.com >> сама wiki
-* minio.your-domain.com >> для minio
-* admin-minio.your-domain.com >> для minio админки
-* kc.your-domain.com >> для keycloak
+Это нужно чтобы можно было зайти на свои сервисы.
 
+### Скачивание файлов
 
-Необязательно использовать Nginx Proxy Manager, можете заменить. Я для своего удобства использовал его.
+Создаем директорию для контейнеров docker: 
+`mkdir -p /opt/docker`
 
-Решили пойти по моему пути и поставить NPM?
+Скачиваем репозиторий в эту эту директорию: 
+`git clone https://github.com/Hynwell/outline-wiki.git /opt/docker`
 
-Да - Тогда читайте ниже =)
+# Reverse proxy
 
+Я буду использовать Nginx Proxy Manager. Он является обратным прокси, основанный на Nginx. Имеет приятный и интуитивно понятный веб интерфейс.
+Используется для того чтобы проксировать Ваше приложение на необходимый домен либо поддомен.
 
-Создайте сеть в docker reverseproxy перед установкой!
+### Установка Nginx Proxy Manager
+Заходим в директорию Nginx Proxy Manager:
+`cd /opt/docker/nginx-proxy-manager/`
 
-`docker network create reverseproxy`
+Копируем файл .env.example и меняем его название:
+`cp .env.example .env`
 
-После этого можете поставить NPM. 
+Открываем .env редактором:
+`nano .env`
 
+Придумываем пароль и заменяем им текс "your-password" в переменных:
+```
+MYSQL_ROOT_PASSWORD=your-password
+MYSQL_PASSWORD=your-password
+```
+
+Запускаем контейнеры командой: 
 `docker compose up -d`
 
+### Настройка reverse proxy и выдача SSL-сертификатов
 
-Заходите в админку, по умолчанию она localhost:81. Логин и пароль в env файле.
+Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  `localhost:81`
 
-Создайте 3 proxy и выдайте им SSL сертификат: 
-
-
-1. Для wiki.your-domain.com >> outline:3000 
-2. Для minio.your-domain.com >> outline-minio:9000
-3. Для admin-minio.your-domain.com >> outline-minio:9001
-4. Для kc.your-domain.com >> keycloak:8080
-
-P.S. Название хоста=название контейнера
-
-## Авторизация
-
-Как оказалось с завода нет нормальной авторизации, нужно привязать OIDC, ну или через другие сервисы.
-
-Я использую keycloak, но вы можете сделать авторизацию через google, slack и тд. См. в документации Otline.
+Логин и пароль по умолчанию:
+Login: `admin@example.com`
+Password: `changeme`
 
 
-### Keycloak
-
-После установки keycloak заходим на kc.your-domain.com:
-
-
-1. Создаем realm. Это название будет использоваться в outline.env, в переменных:
-   * OIDC_AUTH_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/auth>
-   * OIDC_TOKEN_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/token>
-   * OIDC_USERINFO_URI=<https://kc.your-domain.com/auth/realms/YOUR-NAME-REALMS/protocol/openid-connect/userinfo>
-
-   Замените YOUR-NAME-REALMS на название realm, которые вы создали выше и не забудьте указать ваш домен.
-
-      
-2. Создаем Clients, я назвал его outline_app, это название указываем в переменной OIDC_CLIENT_ID >> outline.env
-
-   settings выбираем в полях:  
-
-   
-   1. **Access Type >>** confidential
-   2. **Direct Access Grants Enabled >> OFF**
-
-      
-3.  Во вкладке Credentials копируем ключ **Secret в** OIDC_CLIENT_SECRET >> outline.env
-
-
-Сразу можем создать users, из под него мы будем заходить в Outline
-
-# Установка Outline
-
-Можем запускать контейнеры Outline. Основная настройка закончена.
-
-После запуска, осталась настроить только Minio, чтобы нормально подгружались картинки. 
-
-Заходим на admin-minio.your-domain.com
-
-
-1. Создаем Bucket с именем outline
-2. В его настройках Bucket outline > Anonymous > создаем два правила:
-   * public >> readonly
-   * avatars >> readonly
-
-
-Готово. Заходим на wiki.your-domain.com
+# Скоро будет продолжение...
 
 
