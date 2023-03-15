@@ -16,7 +16,7 @@
 Создаем директорию для контейнеров docker: 
 `mkdir -p /opt/docker`
 
-Скачиваем репозиторий в эту эту директорию: 
+Скачивание файлы в эту эту директорию: 
 `git clone https://github.com/Hynwell/outline-wiki.git /opt/docker`
 
 # Reverse proxy
@@ -28,10 +28,10 @@
 Заходим в директорию Nginx Proxy Manager:
 `cd /opt/docker/nginx-proxy-manager/`
 
-Копируем файл .env.example и меняем его название:
+Копируем файл ".env.example" и меняем его название на ".env":
 `cp .env.example .env`
 
-Открываем .env редактором:
+Открываем ".env" редактором:
 `nano .env`
 
 Придумываем пароль и заменяем им текс "your-password" в переменных:
@@ -45,10 +45,10 @@ MYSQL_PASSWORD=your-password
 
 ### Настройка reverse proxy и выдача SSL-сертификатов
 
-Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  `ip-сервера:81`
+Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  `ip-вашего-сервера:81`
 
 Логин и пароль по умолчанию:
-Login: `admin@example.com`
+Login: `admin@example.com`  
 Password: `changeme`
 
 
