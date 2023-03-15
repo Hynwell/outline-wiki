@@ -42,6 +42,7 @@ services:
 
 networks:
   nginx-proxy-manager:
+    name: nginx-proxy-manager
   reverseproxy:
-    external: true
+    name: reverseproxy
 
