@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: ${OTLINE_POSTGRES_DB}
       PGPORT: ${OTLINE_POSTGRES_PORT}
     networks:
-      - internal
+      - backend
     volumes:
       - ./outline/postgres-data/db:/var/lib/postgresql/data:Z
     #ports:
@@ -24,7 +24,7 @@ services:
     image: ${REDIS_VERSION}
     restart: always
     networks:
-      - internal
+      - backend
 
   outline-minio:
     container_name: ${CONTAINER_NAME_MINIO}
@@ -89,11 +89,12 @@ services:
     ports:
       - "${OUTLINE_PORT}:3000"
     networks:
-      - internal
+      - backend
       - reverseproxy
 
 networks:
-  internal:
+  backend:
+    name: outline-backend
   reverseproxy:
     external: true
 
