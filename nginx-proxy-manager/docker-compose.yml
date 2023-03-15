@@ -21,7 +21,7 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     depends_on:
-      - npm-mariadb
+      - nginx-proxy-manager-db
     networks:
       - nginx-proxy-manager
       - reverseproxy
