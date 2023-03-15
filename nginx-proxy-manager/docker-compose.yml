@@ -1,8 +1,8 @@
 version: "3"
 services:
 
-  npm-app:
-    container_name: npm-app
+  Nginx-Proxy-Manager:
+    container_name: Nginx-Proxy-Manager
     image: ${NPN_VERSION}
     restart: always
     ports:
@@ -10,7 +10,7 @@ services:
       - '443:443'
       - '${NPM_ADMIN_PORT}:81'
     environment:
-      DB_MYSQL_HOST: "npm-mariadb"
+      DB_MYSQL_HOST: "Nginx-Proxy-Manager-db"
       DB_MYSQL_PORT: 3306
       DB_MYSQL_USER: "${MYSQL_USER}"
       DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -26,8 +26,8 @@ services:
       - nginx-proxy-manager
       - reverseproxy
 
-  npm-mariadb:
-    container_name: npm-mariadb
+  Nginx-Proxy-Manager-db:
+    container_name: Nginx-Proxy-Manager-db
     image: ${MARIANDB_VERSION}
     restart: always
     environment:
