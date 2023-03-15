@@ -45,7 +45,7 @@ MYSQL_PASSWORD=your-password
 
 ### Настройка reverse proxy и выдача SSL-сертификатов
 
-Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  `localhost:81`
+Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  `ip-сервера:81`
 
 Логин и пароль по умолчанию:
 Login: `admin@example.com`
