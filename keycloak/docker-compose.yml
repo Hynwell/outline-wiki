@@ -16,7 +16,7 @@ services:
     volumes:
       - ./keycloak/postgres-data/db:/var/lib/postgresql/data:Z
     networks:
-      - internal
+      - backend
 
   keycloak-app:
     container_name: keycloak-app
@@ -41,13 +41,14 @@ services:
       - keycloak-postgres
 
     networks:
-      - internal
+      - backend
       - reverseproxy
 
 volumes:
   keycloak-data:
 
 networks:
-  internal:
+  backend:
+    name: keycloak-backend
   reverseproxy:
     external: true
