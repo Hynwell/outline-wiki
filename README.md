@@ -43,7 +43,7 @@ MYSQL_PASSWORD=your-password
 Запускаем контейнеры командой:  
 `docker compose up -d`
 
-### Настройка reverse proxy и выдача SSL-сертификатов
+### Настройка Nginx Proxy Manager и выдача SSL-сертификатов
 
 Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  
 `ip-вашего-сервера:81`
@@ -51,7 +51,6 @@ MYSQL_PASSWORD=your-password
 Логин и пароль по умолчанию:  
 Login: `admin@example.com`  
 Password: `changeme`
-
 
 # Скоро будет продолжение...
 
