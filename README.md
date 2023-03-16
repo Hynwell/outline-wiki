@@ -2,14 +2,13 @@
 
 ### Поддомены
 
-Нужно создать 4 поддомена на своем сервисе домменов (например: [Reg](https://www.reg.ru/domain/shop/), [Nic](https://www.nic.ru/catalog/domains/)):
+Нужно создать 4 поддомена на своем сервисе домменов (например: [Reg](https://www.reg.ru/domain/shop/), [Nic](https://www.nic.ru/catalog/domains/)) - > создайте dns-записи для каждого поддомена:
 
 * wiki.your-domain.com -> для захода на Outline
 * minio.your-domain.com -> для захода на Minio
 * admin-minio.your-domain.com -> для захода на Minio, в админку
 * kc.your-domain.com -> для захода на Keycloak  
 
-Это нужно чтобы можно было зайти на свои сервисы.
 
 ### Скачивание файлов
 
@@ -21,8 +20,7 @@
 
 # Reverse proxy
 
-Я буду использовать Nginx Proxy Manager. Он является обратным прокси, основанный на Nginx. Имеет приятный и интуитивно понятный веб интерфейс.
-Используется для того чтобы проксировать Ваше приложение на необходимый домен либо поддомен.
+Я буду использовать [Nginx Proxy Manager](https://nginxproxymanager.com/). Он является обратным прокси, основанным на Nginx. Имеет приятный и интуитивно понятный веб интерфейс.
 
 ### Установка Nginx Proxy Manager
 Заходим в директорию Nginx Proxy Manager:  
@@ -34,10 +32,10 @@
 Открываем ".env" редактором:  
 `nano .env`
 
-Придумываем пароль и заменяем им текс "your-password" в переменных:
+Придумываем пароль и заменяем им значения переменных:
 ```
-MYSQL_ROOT_PASSWORD=your-password
-MYSQL_PASSWORD=your-password
+MYSQL_ROOT_PASSWORD=your-mysqlroot-password
+MYSQL_PASSWORD=your-mysql-password
 ```
 
 Запускаем контейнеры командой:  
@@ -45,8 +43,8 @@ MYSQL_PASSWORD=your-password
 
 ### Настройка Nginx Proxy Manager и выдача SSL-сертификатов
 
-Заходим в админку Nginx Proxy Manager, по умолчанию она находиться по адресу:  
-`ip-вашего-сервера:81`
+Заходим в админку Nginx Proxy Manager, по умолчанию она находится по адресу:  
+`http://your.server.ip.address:81`
 
 Логин и пароль по умолчанию:  
 Login: `admin@example.com`  
